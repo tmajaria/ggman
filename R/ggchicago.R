@@ -51,5 +51,5 @@ ggchicago <- function(data1, data2, chr = "CHR", bp = "BP", P = "P",  logP = TRU
     theme_base + scale_color +
     theme(legend.position = "none") +
     xlab(xlabel) + ylab("-log10 P")
-  plt
+  return(plt)
 }
