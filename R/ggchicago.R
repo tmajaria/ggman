@@ -44,10 +44,12 @@ ggchicago <- function(data1, data2, chr = "CHR", bp = "BP", P = "P",  logP = TRU
   xlabel = ifelse(nchar(conv1$xlabel) > nchar(conv2$xlabel), conv1$xlabel, conv2$xlabel)
 
   data = rbind(subset(data1, select = c("x", "y", "color")), subset(data2, select = c("x", "y", "color")))
+  yl = max(max(data1$y), -min(data2$y))
 
   plt = ggplot(data, aes(x, y, color = color)) + geom_point() +
     geom_hline(yintercept = c(0, -log10(significance), log10(significance))) +
     scale_x_continuous(breaks = breaks, labels = labels) +
+    scale_y_continuous(limits = c(-yl, yl), labels = abs) +
     theme_base + scale_color +
     theme(legend.position = "none") +
     xlab(xlabel) + ylab("-log10 P")
