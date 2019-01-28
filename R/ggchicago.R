@@ -48,8 +48,9 @@ ggchicago <- function(data1, data2, chr = "CHR", bp = "BP", P = "P",  logP = TRU
   yl = max(max(data1$y), -min(data2$y))
 
   plt = ggplot(data, aes(x, y, color = color)) + geom_point() +
-    geom_hline(yintercept = c(0, -log10(significance), log10(significance)), linetype="dotted", color = "blue", size=1) +
-    geom_hline(yintercept = c(0, -log10(significance2), log10(significance2)), linetype="dotted", color = "red", size=1) +
+  geom_hline(yintercept = 0) +
+    geom_hline(yintercept = c(-log10(significance), log10(significance)), linetype="dashed", color = "blue", size=1) +
+    geom_hline(yintercept = c(-log10(significance2), log10(significance2)), linetype="dashed", color = "red", size=1) +
     scale_x_continuous(breaks = breaks, labels = labels) +
     scale_y_continuous(limits = c(-yl, yl), labels = abs) +
     theme_base + scale_color +
