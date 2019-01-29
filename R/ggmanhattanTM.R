@@ -40,7 +40,7 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   if (is.null(data$SNP) & (!is.null(lead_snp) | !is.null(annotate_snp))) {
     stop("NULL SNP")
   }
-  if (is.null(data$GROUP) {
+  if (is.null(data$GROUP)) {
     stop("NULL GROUP")
   }
   if (is.function(theme_base)) {
