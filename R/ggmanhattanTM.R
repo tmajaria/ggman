@@ -59,9 +59,9 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   col_vals = rep(c("#000000", "#FF0000", "#008B00", "#0000FF", "#454545", "#EE00EE", "#009ACD", "#EE7600"), 4)
   all.cols <- c("#000000" = "#000000", "#FF0000" = "#FF0000", "#008B00" = "#008B00", "#0000FF" = "#0000FF", "#454545" = "#454545", "#EE00EE" = "#EE00EE", "#009ACD" = "#009ACD", "#EE7600" = "#EE7600","grey30" = "grey30", "grey60" = "grey60")
 
+  data$CHR <- as.numeric(data$CHR)
   data$color <- as.factor(data$CHR)
   data$color <- grey_vals[data$CHR]
-  print(head(data))
 
   data[data$P < nominal & data$GROUP != "NA", "color"] <- col_vals[data[data$P < nominal & data$GROUP != "NA", "chr"]]
 
