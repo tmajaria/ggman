@@ -63,6 +63,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   data[data$P < nominal & data$GROUP != "NA", "color"] <- col_vals[data[data$P < nominal & data$GROUP != "NA", "CHR"]]
 
   data$color <- as.factor(data$color)
+  data$alpha <- 1
+  data[data$color %in% grey_vals, "alpha"] <- 0.3
 
   plt = ggplot(data, aes(x, y, color = color)) + geom_point() +
           geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
@@ -72,7 +74,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
           theme_base +
           scale_color_manual(values = all.cols) +
           theme(axis.text.x = element_text(size = rel(0.75)), legend.position = "none") +
-          xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
+          xlab(conv$xlabel) + ylab(expression(-log[10](italic(P)))) +
+          scale_alpha("alpha")
 
   if (!is.null(lead_snp)) {
     lead_snp = subset(data, data$SNP %in% lead_snp)
