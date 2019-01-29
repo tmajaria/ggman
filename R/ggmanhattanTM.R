@@ -61,7 +61,7 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   data$color <- as.factor(data$CHR)
   data$color <- grey_vals[data$CHR]
 
-  data[data$P] < nominal & !is.na(data$GROUP), "color"] <- col_vals[data[data$P < nominal & !is.na(data$GROUP), "chr"]]
+  data[data$P < nominal & !is.na(data$GROUP), "color"] <- col_vals[data[data$P < nominal & !is.na(data$GROUP), "chr"]]
   data$color <- as.factor(data$color)
 
   plt = ggplot(data, aes(x, y, color = color)) + geom_point() +
