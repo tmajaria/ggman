@@ -67,6 +67,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   data$alpha <- "1"
   data[data$color %in% grey_vals, "alpha"] <- "0.3"
 
+  data$GROUP <- factor( data$GROUP, levels =  data$GROUP[order(data$GROUP)])
+
   plt = ggplot(data, aes(x, y, color = color)) + geom_point() +
           geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
           geom_hline(yintercept = -log10(significance), linetype = "dashed", color = "blue") +
