@@ -50,7 +50,6 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
     scale_color = scale_color()
   }
 
-  print(head(data))
   conv = .convert2posX(data$CHR, data$BP, build)
   data$x = conv$posX
   data$y = if (logP) -log10(data$P) else data$P
@@ -61,7 +60,7 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   data$color <- as.factor(data$CHR)
   data$color <- grey_vals[data$CHR]
 
-  data[data$P < nominal & data$GROUP != "NA", "color"] <- col_vals[data[data$P < nominal & data$GROUP != "NA", "chr"]]
+  data[data$P < nominal & data$GROUP != "NA", "color"] <- col_vals[data[data$P < nominal & data$GROUP != "NA", "CHR"]]
 
   data$color <- as.factor(data$color)
 
