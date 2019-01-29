@@ -55,8 +55,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   data$y = if (logP) -log10(data$P) else data$P
   
   grey_vals = rep(c("grey40", "grey70"), 13)
-  col_vals = rep(c("#FF0000", "#008B00", "#0000FF", "#454545", "#EE00EE", "#009ACD", "#EE7600"), 5)
-  all.cols <- c("#FF0000" = "#FF0000", "#008B00" = "#008B00", "#0000FF" = "#0000FF", "#454545" = "#454545", "#EE00EE" = "#EE00EE", "#009ACD" = "#009ACD", "#EE7600" = "#EE7600","grey40" = "grey40", "grey70" = "grey70")
+  col_vals = rep(c("#FF0000", "#008B00", "#0000FF", "#ffff00", "#EE00EE", "#009ACD", "#EE7600"), 5)
+  all.cols <- c("#FF0000" = "#FF0000", "#008B00" = "#008B00", "#0000FF" = "#0000FF", "#ffff00" = "#ffff00", "#EE00EE" = "#EE00EE", "#009ACD" = "#009ACD", "#EE7600" = "#EE7600","grey40" = "grey40", "grey70" = "grey70")
   all.alpha <- c("0.3" = 0.3, "1" = 1)
   data$color <- as.factor(data$CHR)
   data$color <- grey_vals[data$CHR]
