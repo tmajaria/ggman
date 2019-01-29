@@ -57,15 +57,15 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   grey_vals = rep(c("grey30", "grey60"), 13)
   col_vals = rep(c("#FF0000", "#008B00", "#0000FF", "#454545", "#EE00EE", "#009ACD", "#EE7600"), 5)
   all.cols <- c("#FF0000" = "#FF0000", "#008B00" = "#008B00", "#0000FF" = "#0000FF", "#454545" = "#454545", "#EE00EE" = "#EE00EE", "#009ACD" = "#009ACD", "#EE7600" = "#EE7600","grey30" = "grey30", "grey60" = "grey60")
-  all.alpha <- c(0.3 = 0.3, 1 = 1)
+  all.alpha <- c("0.3" = 0.3, "1" = 1)
   data$color <- as.factor(data$CHR)
   data$color <- grey_vals[data$CHR]
 
   data[data$P < nominal & data$GROUP != "NA", "color"] <- col_vals[data[data$P < nominal & data$GROUP != "NA", "CHR"]]
 
   data$color <- as.factor(data$color)
-  data$alpha <- 1
-  data[data$color %in% grey_vals, "alpha"] <- 0.3
+  data$alpha <- "1"
+  data[data$color %in% grey_vals, "alpha"] <- "0.3"
 
   plt = ggplot(data, aes(x, y, color = color)) + geom_point() +
           geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
