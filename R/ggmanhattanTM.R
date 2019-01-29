@@ -15,7 +15,7 @@
 #' @param scale_color
 #' @export
 ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", group = "group_id", P_char = NULL, logP = TRUE, build = 'hg19',
-                        nominal = c(1e-5),
+                        nominal = c(1.0e-5),
                         significance = c(5.0e-8), ylim = NULL,
                         lead_snp = NULL, annotate_snp = NULL,
                         theme_base = theme_publication(),
@@ -49,6 +49,7 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   if (is.function(scale_color)) {
     scale_color = scale_color()
   }
+  print("here")
 
   conv = .convert2posX(data$CHR, data$BP, build)
   data$x = conv$posX
