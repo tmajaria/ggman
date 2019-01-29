@@ -49,7 +49,7 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   if (is.function(scale_color)) {
     scale_color = scale_color()
   }
-  print("here")
+  
 
   conv = .convert2posX(data$CHR, data$BP, build)
   data$x = conv$posX
@@ -61,7 +61,7 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
 
   data$color <- as.factor(data$CHR)
   data$color <- grey_vals[data$CHR]
-
+  print("here")
   data[data$P < nominal & data$GROUP != "NA", "color"] <- col_vals[data[data$P < nominal & data$GROUP != "NA", "chr"]]
   data$color <- as.factor(data$color)
 
