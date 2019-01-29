@@ -68,14 +68,9 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   data[data$color %in% grey_vals, "alpha"] <- "0.3"
 
   data$GROUP <- factor( data$GROUP, levels =  unique(data$GROUP[order(data$GROUP)]))
-  ggplot(df) +
-  geom_point(aes(x = x, y = y, color = label,  size = size)) +
-  geom_point(data = subset(df, label == 'point'),
-             aes(x = x, y = y, color = label, size = size))
 
-
-  plt = ggplot(data) + geom_point(data = subset(data, GROUP == "NA"), aes(x, y, color = color)) +
-          geom_point(data = subset(data, GROUP != "NA"), aes(x, y, color = color)) +
+  plt = ggplot(data) + geom_point(data = base::subset(data, GROUP == "NA"), aes(x, y, color = color)) +
+          geom_point(data = base::subset(data, GROUP != "NA"), aes(x, y, color = color)) +
           geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
           geom_hline(yintercept = -log10(significance), linetype = "dashed", color = "blue") +
           scale_x_continuous(breaks = conv$breaks, labels = conv$labels, expand = expand.x) +
