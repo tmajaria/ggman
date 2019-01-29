@@ -129,5 +129,5 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   } else if (!is.null(annotate_snp)) {
     plt = plt + coord_cartesian(ylim = c(0, ceiling(max(data$y) + 1)))
   }
-  plt
+  return(plt)
 }
