@@ -65,6 +65,7 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
 
   # get groups with P < nominal
   nom_groups <- unique(data[data$P < nominal, ]$GROUP)
+  nom_groups <- nom_groups[nom_groups != "NA"]
 
   if (length(nom_groups) > 0){
     data[data$GROUP %in% nom_groups, "color"] <- col_vals[data[data$GROUP %in% nom_groups, "CHR"]]
