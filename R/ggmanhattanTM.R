@@ -77,8 +77,9 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
 
   data$GROUP <- factor( data$GROUP, levels =  unique(data$GROUP[order(data$GROUP)]))
 
-  plt = ggplot(data) + geom_point(data = base::subset(data, GROUP == "NA"), aes(x, y, color = color)) +
-          geom_point(data = base::subset(data, GROUP != "NA"), aes(x, y, color = color)) +
+  if (length(nom_groups) > 0){
+  plt = ggplot(data) + geom_point(data = base::subset(data, color %in% c("grey70", "grey80")), aes(x, y, color = color)) +
+          geom_point(data = base::subset(data, color == "blue"), aes(x, y, color = color)) +
           geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
           geom_hline(yintercept = -log10(significance), linetype = "dashed", color = "black") +
           scale_x_continuous(breaks = conv$breaks, labels = conv$labels, expand = expand.x) +
@@ -88,6 +89,18 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
           scale_alpha_manual(values = all.alpha) + 
           theme(axis.text.x = element_text(size = rel(0.75)), legend.position = "none") +
           xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
+  } else {
+    plt = ggplot(data) + geom_point(data = data, aes(x, y, color = color)) +
+          geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
+          geom_hline(yintercept = -log10(significance), linetype = "dashed", color = "black") +
+          scale_x_continuous(breaks = conv$breaks, labels = conv$labels, expand = expand.x) +
+          scale_y_continuous(expand = expand.y) +
+          theme_base +
+          scale_color_manual(values = all.cols) +
+          scale_alpha_manual(values = all.alpha) + 
+          theme(axis.text.x = element_text(size = rel(0.75)), legend.position = "none") +
+          xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
+  }
 
   if (!is.null(lead_snp)) {
     lead_snp = subset(data, data$SNP %in% lead_snp)
