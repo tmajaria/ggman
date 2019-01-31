@@ -63,7 +63,12 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   data$color <- as.factor(data$CHR)
   data$color <- grey_vals[data$CHR]
 
-  data[data$P < nominal & data$GROUP != "NA", "color"] <- col_vals[data[data$P < nominal & data$GROUP != "NA", "CHR"]]
+  # get groups with P < nominal
+  nom_groups <- unique(data[data$P < nominal, ]$GROUP)
+
+  if (length(nom_groups) > 0){
+    data[data$GROUP %in% nom_groups, "color"] <- col_vals[data[data$GROUP %in% nom_groups, "CHR"]]
+  }
 
   data$color <- as.factor(data$color)
   data$alpha <- "1"
