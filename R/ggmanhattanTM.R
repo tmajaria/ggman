@@ -74,6 +74,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   data$color <- grey_vals[data$CHR]
   data[data$P < nominal & data$GROUP != "NA", "color"] <- col_vals[data[data$P < nominal & data$GROUP != "NA", "CHR"]]
 
+  data[data$GROUP %in% data[data$color %in% col_vals,"GROUP"], "color"] <- col_vals[1]
+
   data$color <- as.factor(data$color)
   data$alpha <- "1"
   data[data$color %in% grey_vals, "alpha"] <- "0.3"
