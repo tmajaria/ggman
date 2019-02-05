@@ -94,6 +94,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
           scale_alpha_manual(values = all.alpha) + 
           theme(axis.text.x = element_text(size = rel(0.5)), legend.position = "none") +
           theme(axis.text.y = element_text(size = rel(0.5)), legend.position = "none") +
+          theme(axis.title.x = element_text(size = rel(0.5)), legend.position = "none") +
+          theme(axis.title.y = element_text(size = rel(0.5)), legend.position = "none") +
           xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
   } else {
     plt = ggplot(data) + geom_point(data = base::subset(data, color %in% c("grey70","grey80")), aes(x, y, color = color), size = .5) +
@@ -106,6 +108,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
           scale_alpha_manual(values = all.alpha) + 
           theme(axis.text.x = element_text(size = rel(0.5)), legend.position = "none") +
           theme(axis.text.y = element_text(size = rel(0.5)), legend.position = "none") +
+          theme(axis.title.x = element_text(size = rel(0.5)), legend.position = "none") +
+          theme(axis.title.y = element_text(size = rel(0.5)), legend.position = "none") +
           xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
   }
   
