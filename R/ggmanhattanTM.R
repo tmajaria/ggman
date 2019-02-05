@@ -93,7 +93,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
           scale_color_manual(values = all.cols) +
           scale_alpha_manual(values = all.alpha) + 
           theme(axis.text.x = element_text(size = rel(0.5)), legend.position = "none") +
-          xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))), size=8)
+          theme(axis.text.y = element_text(size = rel(0.5)), legend.position = "none") +
+          xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
   } else {
     plt = ggplot(data) + geom_point(data = base::subset(data, color %in% c("grey70","grey80")), aes(x, y, color = color), size = .5) +
           geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
@@ -104,7 +105,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
           scale_color_manual(values = all.cols) +
           scale_alpha_manual(values = all.alpha) + 
           theme(axis.text.x = element_text(size = rel(0.5)), legend.position = "none") +
-          xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))), size=8)
+          theme(axis.text.y = element_text(size = rel(0.5)), legend.position = "none") +
+          xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
   }
   
 
