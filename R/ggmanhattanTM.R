@@ -83,8 +83,8 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
   data$GROUP <- factor( data$GROUP, levels =  unique(data$GROUP[order(data$GROUP)]))
 
   if (nrow(data[data$color %in% col_vals,]) > 0){
-    plt = ggplot(data) + geom_point(data = base::subset(data, color %in% c("grey70","grey80")), aes(x, y, color = color)) +
-          geom_point(data = base::subset(data, color == "blue"), aes(x, y, color = color)) +
+    plt = ggplot(data) + geom_point(data = base::subset(data, color %in% c("grey70","grey80")), aes(x, y, color = color, size = 1)) +
+          geom_point(data = base::subset(data, color == "blue"), aes(x, y, color = color, size = 1)) +
           geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
           geom_hline(yintercept = -log10(significance), linetype = "dashed", color = "black") +
           scale_x_continuous(breaks = conv$breaks, labels = conv$labels, expand = expand.x) +
@@ -95,7 +95,7 @@ ggmanhattanTM <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", gr
           theme(axis.text.x = element_text(size = rel(0.75)), legend.position = "none") +
           xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
   } else {
-    plt = ggplot(data) + geom_point(data = base::subset(data, color %in% c("grey70","grey80")), aes(x, y, color = color)) +
+    plt = ggplot(data) + geom_point(data = base::subset(data, color %in% c("grey70","grey80")), aes(x, y, color = color, size = 1)) +
           geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
           geom_hline(yintercept = -log10(significance), linetype = "dashed", color = "black") +
           scale_x_continuous(breaks = conv$breaks, labels = conv$labels, expand = expand.x) +
