@@ -64,7 +64,7 @@ ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P
   data$color <- as.factor(data$color)
   data$alpha <- "1"
   data[data$color %in% grey_vals, "alpha"] <- "0.3"
-  all.cols <- unique(data$color)
+  all.cols <- c("#ff9d00" = "#ff9d00","#e900ff" = "#e900ff","#2200ff" = "#2200ff","#00bbff" = "#00bbff","#006b0c" = "#006b0c","#006b6b" = "#006b6b","#5e10a3" = "#5e10a3","#ff0000" = "#ff0000")
 
   data$GROUP <- factor( data$GROUP, levels =  unique(data$GROUP[order(data$GROUP)]))
 
