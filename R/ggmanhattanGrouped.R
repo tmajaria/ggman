@@ -58,10 +58,8 @@ ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P
   all.alpha <- c("0.3" = 0.3, "1" = 1)
   data$color <- as.factor(data$CHR)
   data$color <- grey_vals[data$CHR]
-  data$color[!is.na(data$site.col), "color"] <- data$color[!is.na(data$site.col), "site.col"]
+  data[!is.na(data$site.col), "color"] <- data[!is.na(data$site.col), "site.col"]
 
-  
-  data$color <- grey_vals[data$CHR]
 
   data$color <- as.factor(data$color)
   data$alpha <- "1"
