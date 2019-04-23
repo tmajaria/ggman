@@ -3,6 +3,7 @@
 export(ggchicago)
 export(ggmanhattan)
 export(ggmanhattanTM)
+export(ggmanhattanGrouped)
 export(gq)
 export(scale_colour_dichromatic)
 export(scale_colour_traditional)
