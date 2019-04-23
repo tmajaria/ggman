@@ -69,6 +69,7 @@ ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P
   data$GROUP <- factor( data$GROUP, levels =  unique(data$GROUP[order(data$GROUP)]))
 
   if (nrow(data[data$color %in% all.cols,]) > 0){
+    all.cols <- c("#ff9d00" = "#ff9d00","#e900ff" = "#e900ff","#2200ff" = "#2200ff","#00bbff" = "#00bbff","#006b0c" = "#006b0c","#006b6b" = "#006b6b","#5e10a3" = "#5e10a3","#ff0000" = "#ff0000", "grey70" = "grey70", "grey80" = "grey80")
     plt = ggplot(data) + geom_point(data = base::subset(data, color %in% c("grey70","grey80")), aes(x, y, color = color), size = .5) +
           geom_point(data = base::subset(data, !(color %in% c("grey70","grey80"))), aes(x, y, color = color), size = .5) +
           geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
