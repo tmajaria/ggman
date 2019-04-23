@@ -90,7 +90,7 @@ ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P
           scale_x_continuous(breaks = conv$breaks, labels = conv$labels, expand = expand.x) +
           scale_y_continuous(expand = expand.y) +
           theme_base +
-          scale_color_manual(values = all.cols) +
+          scale_color_manual(values = c("grey70" = "grey70", "grey80" = "grey80")) +
           scale_alpha_manual(values = all.alpha) + 
           theme(axis.text.x = element_text(size = rel(0.5)), legend.position = "none") +
           theme(axis.text.y = element_text(size = rel(0.5)), legend.position = "none") +
