@@ -168,7 +168,7 @@ theme_publication = function(base_size = 16, base_family = "Helvetica", ...) {
 
 
 
-ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", group = "group_id", color = "color", P_char = NULL, logP = TRUE, build = 'hg19',
+ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P", group = "group_id", color = "color", group_attrs = NULL, P_char = NULL, logP = TRUE, build = 'hg19',
                         nominal = c(1.0e-5),
                         significance = c(5.0e-8), ylim = NULL,
                         lead_snp = NULL, annotate_snp = NULL,
@@ -205,6 +205,10 @@ ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P
     scale_color = scale_color()
   }
 
+  # subset group atributes to those that we ahve
+  # group_attrs <- group_attrs[group_attrs$group %in% unique(data$GROUP),]
+  print(group_attrs)
+
   # get absolute positions for variants
   conv = .convert2posXR(data$CHR, data$BP, build)
   data$x = conv$posX
@@ -218,17 +222,31 @@ ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P
   grey_vals = rep(c("gray30", "gray50"), 20)
 
   # set colors based on chromosomes
+  # data[is.na(data$GROUP), "GROUP"] <- "NA"
+  print(unique(data$GROUP))
   data$COLOR <- as.factor(data$CHR)
   data$COLOR <- grey_vals[data$CHR]
 
   # add colors to groups if we have any
-  data$GROUP <- factor( data$GROUP, levels =  unique(data$GROUP[order(data$GROUP)]))
-  data[!is.na(data[[color]]), "COLOR"] <- as.character(data[!is.na(data[[color]]), color])
-  data$COLOR <- as.factor(data$COLOR)
+  data[data[[color]] != "NA", "COLOR"] <- as.character(data[data[[color]] != "NA", color])
+
+  # data$GROUP <- factor(data$GROUP)
+  # data$COLOR <- factor(data$COLOR)
+  # get a mapping from color to group
+  col2group <- unique(data[,c("COLOR","GROUP")])
+  col2group$COLOR <- as.character(col2group$COLOR)
+  col2group$GROUP <- as.character(col2group$GROUP)
+  new.groups <- as.character(1:nrow(col2group[col2group$GROUP == "NA",]))
+  plot.groups <- col2group[col2group$GROUP != "NA","GROUP"]
+  col2group[col2group$GROUP == "NA", "GROUP"] <- new.groups
+  data$COLOR2 <- factor(data$COLOR, levels = col2group$COLOR, labels = col2group$GROUP)
+  data$COLOR <- factor(data$COLOR)
+
+  print(plot.groups)
 
   # make list of all colors for later in ggplot
-  all.cols <- levels(data$COLOR)
-  names(all.cols) <- all.cols
+  # all.cols <- levels(data$COLOR)
+  # names(all.cols) <- all.cols
 
   # add alpha level (this may be removed later)
   data$alpha <- "1"
@@ -239,24 +257,34 @@ ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P
   all.alpha <- levels(data$alpha)
   names(all.alpha) <- all.alpha
 
+
   ### Plots
 
   if (!all(levels(data$COLOR) %in% grey_vals)){
     print("Multicolor plot")
-    plt = ggplot(data) + geom_point(data = base::subset(data, COLOR %in% grey_vals), aes(x, y, color = COLOR), size = .5) +
-          geom_point(data = base::subset(data, !(COLOR %in% grey_vals)), aes(x, y, color = COLOR), size = 1) +
-          geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
-          geom_hline(yintercept = -log10(significance), linetype = "dashed", color = "black") +
-          scale_x_continuous(breaks = conv$breaks, labels = conv$labels, expand = expand.x) +
-          scale_y_continuous(expand = expand.y) +
-          theme_base +
-          scale_color_manual(values = all.cols) +
-          scale_alpha_manual(values = all.alpha) + 
-          theme(axis.text.x = element_text(size = rel(0.5)), legend.position = "none") +
-          theme(axis.text.y = element_text(size = rel(0.5)), legend.position = "none") +
-          theme(axis.title.x = element_text(size = rel(0.5)), legend.position = "none") +
-          theme(axis.title.y = element_text(size = rel(0.5)), legend.position = "none") +
-          xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
+    plt = ggplot(data) + geom_point(data = base::subset(data, COLOR %in% grey_vals), aes(x, y, color = COLOR2), size = .5) +
+        geom_point(data = base::subset(data, !(COLOR %in% grey_vals)), aes(x, y, color = COLOR2, shape = COLOR2, size = COLOR2))+#, position = position_jitter(width=10000000)) +
+        geom_hline(yintercept = -log10(nominal), linetype = "dashed", color = "red") +
+        geom_hline(yintercept = -log10(significance), linetype = "dashed", color = "black") +
+        scale_x_continuous(breaks = conv$breaks, labels = conv$labels, expand = expand.x) +
+        scale_y_continuous(expand = expand.y) +
+        theme_base +
+        # scale_color_manual(breaks = plot.groups, values = as.character(unique(data$COLOR))) +
+        scale_alpha_manual(values = all.alpha) + 
+        # scale_shape_manual(values = factor(c(22,23,24,25,7,13)[1:(length(unique(data$GROUP)))])) +
+        # scale_size_manual(values = seq(1,10)[1:(length(unique(data$GROUP)))]) +
+        
+        scale_colour_manual(name = "Annotation", breaks = plot.groups, values = group_attrs[levels(data$COLOR2)[order(levels(data$COLOR2))],]$color) +  
+        scale_shape_manual(name = "Annotation", breaks = plot.groups, values = group_attrs[levels(data$COLOR2),]$shape[3:length(levels(data$COLOR2))]) +
+        scale_size_manual(name = "Annotation", breaks = plot.groups, values = group_attrs[levels(data$COLOR2),]$size[3:length(levels(data$COLOR2))]) +
+        theme(axis.text.x = element_text(size = rel(0.5)))+#, legend.position = "none") +
+        theme(axis.text.y = element_text(size = rel(0.5)))+#, legend.position = "none") +
+        theme(axis.title.x = element_text(size = rel(0.5)))+#, legend.position = "none") +
+        theme(axis.title.y = element_text(size = rel(0.5)))+#, legend.position = "none") +
+        xlab(conv$xlabel) + ylab(expression(-log[10](italic(P))))
+# +
+        #guides(color = guide_legend(title = "Annotation", title.position = "left", title.theme = element_text(size = 10, face = "bold"), keyheight = 0.9, keywidth = 0.9, direction = "vertical", ncol = 1, override.aes = list(shape = factor(rev(c(22,23,24,25,7,13)[1:(length(unique(data$GROUP))-1)])), size = rev(seq(1,10)[1:(length(unique(data$GROUP))-1)]))))
+
   } else {
     print("Monochromatic plot")
     plt = ggplot(data) + geom_point(data = base::subset(data, COLOR %in% grey_vals), aes(x, y, color = COLOR), size = .5) +
@@ -265,7 +293,7 @@ ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P
           scale_x_continuous(breaks = conv$breaks, labels = conv$labels, expand = expand.x) +
           scale_y_continuous(expand = expand.y) +
           theme_base +
-          scale_color_manual(values = all.cols) +
+          scale_color_manual(values = as.character(unique(data$COLOR))) +
           scale_alpha_manual(values = all.alpha) + 
           theme(axis.text.x = element_text(size = rel(0.5)), legend.position = "none") +
           theme(axis.text.y = element_text(size = rel(0.5)), legend.position = "none") +
