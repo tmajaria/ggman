@@ -139,7 +139,7 @@ theme_publication = function(base_size = 16, base_family = "Helvetica", ...) {
   return(pos)
 }
 
-.convert2posXR <- function(chr, bp, build) {
+convert2posXR <- function(chr, bp, build) {
   if (length(chr) != length(bp)) {
     stop("SIZE DIFFER.");
   }
@@ -218,7 +218,7 @@ ggmanhattanGrouped <- function(data, SNP = "SNP", chr = "CHR", bp = "BP", P = "P
   # print(group_attrs)
   
   # get absolute positions for variants
-  conv = .convert2posXR(data$CHR, data$BP, build)
+  conv = convert2posXR(data$CHR, data$BP, build)
   data$x = conv$posX
   
   # convert to log scale
