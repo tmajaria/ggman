@@ -413,7 +413,7 @@ ggmanhattanGroupedNoLegend <- function(data, SNP = "SNP", chr = "CHR", bp = "BP"
   # print(group_attrs)
   
   # get absolute positions for variants
-  conv = .convert2posXR(data$CHR, data$BP, build)
+  conv = convert2posXR(data$CHR, data$BP, build)
   data$x = conv$posX
   
   # convert to log scale
